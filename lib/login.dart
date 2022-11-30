@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mikenson_thomas/cadastro.dart';
 import 'package:mikenson_thomas/db/database_helper.dart';
 import 'package:mikenson_thomas/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,17 +18,31 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController nomeEditingController = TextEditingController();
-    TextEditingController sobrenomeEditingController = TextEditingController();
-    TextEditingController emailEditingController = TextEditingController();
-    TextEditingController senhaEditingController = TextEditingController();
+    // TextEditingController nomeEditingController = TextEditingController();
+    // TextEditingController sobrenomeEditingController = TextEditingController();
+    TextEditingController emailEditingController = TextEditingController(text: 'teste@teste.com');
+    TextEditingController senhaEditingController = TextEditingController(text: '123456');
 
     return Form(
         key: _formKey,
         child: Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
-            title: Center(child: Text('Pagina de login')),
+            title: Text('Pagina de login'),
+            actions: [
+              Padding(
+                padding: EdgeInsets.only(right: 20.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (_) => Cadastro()));
+                  },
+                  child: Icon(
+                    Icons.person_add,
+                    size: 26.0,
+                  ),
+                )
+              ),
+            ],
           ),
           body: SingleChildScrollView(
             child: Center(
@@ -41,38 +56,38 @@ class _LoginState extends State<Login> {
                       child: Text('Ensere seus dados',
                           style: TextStyle(fontSize: 20)),
                     ),
-                    TextFormField(
-                      controller: nomeEditingController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Preencha o campo nome';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          labelText: 'Nome',
-                          icon: Icon(Icons.person),
-                          hintText: 'Informe o nome'),
-                    ),
-                    TextFormField(
-                      controller: sobrenomeEditingController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Preencha o campo sobrenome';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          labelText: 'Sobrenome',
-                          icon: Icon(Icons.person),
-                          hintText: 'Informe o sobrenome'),
-                    ),
+                    // TextFormField(
+                    //   controller: nomeEditingController,
+                    //   validator: (value) {
+                    //     if (value == null || value.isEmpty) {
+                    //       return 'Preencha o campo nome';
+                    //     }
+                    //     return null;
+                    //   },
+                    //   decoration: InputDecoration(
+                    //       border: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.circular(30),
+                    //       ),
+                    //       labelText: 'Nome',
+                    //       icon: Icon(Icons.person),
+                    //       hintText: 'Informe o nome'),
+                    // ),
+                    // TextFormField(
+                    //   controller: sobrenomeEditingController,
+                    //   validator: (value) {
+                    //     if (value == null || value.isEmpty) {
+                    //       return 'Preencha o campo sobrenome';
+                    //     }
+                    //     return null;
+                    //   },
+                    //   decoration: InputDecoration(
+                    //       border: OutlineInputBorder(
+                    //         borderRadius: BorderRadius.circular(30),
+                    //       ),
+                    //       labelText: 'Sobrenome',
+                    //       icon: Icon(Icons.person),
+                    //       hintText: 'Informe o sobrenome'),
+                    // ),
                     TextFormField(
                       controller: emailEditingController,
                       validator: (value) {
@@ -112,34 +127,28 @@ class _LoginState extends State<Login> {
                       child: ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            String nome = nomeEditingController.text;
-                            String sobrenome = sobrenomeEditingController.text;
+                            // String nome = nomeEditingController.text;
+                            // String sobrenome = sobrenomeEditingController.text;
                             String email = emailEditingController.text;
+                            String senha = senhaEditingController.text;
 
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('Processando Dados')),
-                            );
+                            var usuarioExiste = await DatabaseHelper.instance.login(email, senha);
 
-                            // // GRAVAR OS DADOS NO BANCO
-                            // Map<String, String> usuario = {
-                            //   DatabaseHelper.columnNome: nome,
-                            //   DatabaseHelper.columnSobrenome: sobrenome,
-                            //   DatabaseHelper.columnEmail: email,
-                            // };
-
-                            // final id = await DatabaseHelper.instance.insert(usuario);
-                            // print(id);
-
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AcessoPage(
-                                  nome: nome,
-                                  sobrenome: sobrenome,
-                                  email: email,
+                            if (usuarioExiste == 0) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Usuário ou Senha Inválido!')),
+                              );
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => AcessoPage(
+                                    email: email,
+                                  ),
                                 ),
-                              ),
-                            );
+                              );
+                            }
+                            
                           }
                         },
                         child: const Text('Enviar'),

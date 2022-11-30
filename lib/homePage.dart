@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   ImagePicker imagePicker = ImagePicker();
 
-  String? imagemSelecionada;
+  XFile? imagemSelecionada;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,36 +31,12 @@ class _HomePageState extends State<HomePage> {
                 ? Container()
                 : Padding(
                     padding: const EdgeInsets.all(16),
-                    //child: Image.file(imagemSelecionada!),
-                    child: Image.network(
-                      imagemSelecionada!,
-                      fit: BoxFit.fill,
-                      width: 300,
+                    child: Image.file(
+                      File(imagemSelecionada!.path),
+                      fit: BoxFit.contain,
+                      height: 200,
                     )),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     Navigator.push(
-            //       context,
-            //       MaterialPageRoute(
-            //         builder: (context) => About(
-            //           titulo: 'Home page',
-            //         ),
-            //       ),
-            //     );
-            //   },
-            //   child: Text('Página anterior'),
-            // ),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     Navigator.pushAndRemoveUntil(
-            //         context,
-            //         MaterialPageRoute(
-            //           builder: (context) => Login(),
-            //         ),
-            //         ((route) => false));
-            //   },
-            //   child: Text('Volta'),
-            // ),
+
           ],
         ),
       ),
@@ -99,7 +75,7 @@ class _HomePageState extends State<HomePage> {
         await imagePicker.pickImage(source: ImageSource.gallery);
     if (imagemTemporaria != null) {
       setState(() {
-        imagemSelecionada = imagemTemporaria.path;
+        imagemSelecionada = imagemTemporaria;
       });
     }
   }
@@ -110,7 +86,7 @@ class _HomePageState extends State<HomePage> {
         await imagePicker.pickImage(source: ImageSource.camera);
     if (imagemTemporaria != null) {
       setState(() {
-        imagemSelecionada = imagemTemporaria.path;
+        imagemSelecionada = imagemTemporaria;
       });
     }
   }

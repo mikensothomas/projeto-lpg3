@@ -5,14 +5,14 @@ import 'about.dart';
 import 'homePage.dart';
 
 class AcessoPage extends StatefulWidget {
-  String nome;
-  String sobrenome; //opcional
+  String? nome;
+  String? sobrenome; //opcional
   String email;
 
   AcessoPage({
     required this.email,
-    required this.nome,
-    required this.sobrenome,
+     this.nome,
+     this.sobrenome,
   });
 
   @override
@@ -53,9 +53,7 @@ class _AcessoPageState extends State<AcessoPage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => About(
-                            titulo: 'Pagina de dados',
-                          )),
+                      builder: (context) => About()),
                 );
               },
               child: Text('Proxima Página'),
