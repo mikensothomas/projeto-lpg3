@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:mikenson_thomas/about.dart';
+import 'package:mikenson_thomas/api.dart';
 import 'login.dart';
 import 'about.dart';
 
@@ -22,23 +23,26 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Center(child: Text('Imagem')),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            imagemSelecionada == null
-                ? Container()
-                : Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Image.file(
-                      File(imagemSelecionada!.path),
-                      fit: BoxFit.contain,
-                      height: 200,
-                    )),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          imagemSelecionada == null
+              ? Api()
+              : Column(
+                children: [
+                  Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Image.file(
+                        File(imagemSelecionada!.path),
+                        fit: BoxFit.contain,
+                        height: 200,
+                      )),
+                      Api()
+                ],
+              ),
 
-          ],
-        ),
+        ],
       ),
       bottomNavigationBar: BottomAppBar(
         child: Row(

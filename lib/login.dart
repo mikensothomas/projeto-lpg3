@@ -18,8 +18,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    // TextEditingController nomeEditingController = TextEditingController();
-    // TextEditingController sobrenomeEditingController = TextEditingController();
+    
     TextEditingController emailEditingController = TextEditingController(text: 'teste@teste.com');
     TextEditingController senhaEditingController = TextEditingController(text: '123456');
 
@@ -56,38 +55,7 @@ class _LoginState extends State<Login> {
                       child: Text('Ensere seus dados',
                           style: TextStyle(fontSize: 20)),
                     ),
-                    // TextFormField(
-                    //   controller: nomeEditingController,
-                    //   validator: (value) {
-                    //     if (value == null || value.isEmpty) {
-                    //       return 'Preencha o campo nome';
-                    //     }
-                    //     return null;
-                    //   },
-                    //   decoration: InputDecoration(
-                    //       border: OutlineInputBorder(
-                    //         borderRadius: BorderRadius.circular(30),
-                    //       ),
-                    //       labelText: 'Nome',
-                    //       icon: Icon(Icons.person),
-                    //       hintText: 'Informe o nome'),
-                    // ),
-                    // TextFormField(
-                    //   controller: sobrenomeEditingController,
-                    //   validator: (value) {
-                    //     if (value == null || value.isEmpty) {
-                    //       return 'Preencha o campo sobrenome';
-                    //     }
-                    //     return null;
-                    //   },
-                    //   decoration: InputDecoration(
-                    //       border: OutlineInputBorder(
-                    //         borderRadius: BorderRadius.circular(30),
-                    //       ),
-                    //       labelText: 'Sobrenome',
-                    //       icon: Icon(Icons.person),
-                    //       hintText: 'Informe o sobrenome'),
-                    // ),
+                    
                     TextFormField(
                       controller: emailEditingController,
                       validator: (value) {
@@ -127,8 +95,6 @@ class _LoginState extends State<Login> {
                       child: ElevatedButton(
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                            // String nome = nomeEditingController.text;
-                            // String sobrenome = sobrenomeEditingController.text;
                             String email = emailEditingController.text;
                             String senha = senhaEditingController.text;
 
