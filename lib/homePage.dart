@@ -28,19 +28,26 @@ class _HomePageState extends State<HomePage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           imagemSelecionada == null
-              ? Api()
-              : Column(
-                children: [
-                  Padding(
-                      padding: const EdgeInsets.all(16),
+              ? Container()
+              :Expanded(
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                  Expanded(
+                    child: FittedBox(
+                      fit: BoxFit.fill,
                       child: Image.file(
-                        File(imagemSelecionada!.path),
-                        fit: BoxFit.contain,
-                        height: 200,
-                      )),
-                      Api()
-                ],
-              ),
+                                File(imagemSelecionada!.path),
+                                fit: BoxFit.contain,
+                                height: 200,
+                              )),
+                  ),
+                  Expanded(child: Api())
+              ],
+            ),
+          ),
+        )
 
         ],
       ),

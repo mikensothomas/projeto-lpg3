@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 import 'package:mikenson_thomas/homePage.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -13,12 +14,14 @@ class Api extends StatefulWidget {
 
 class _ApiState extends State<Api> {
   
-  Future<List<Map<String, dynamic>>> pegarComentario() async {
+  Future<List<Map<String, dynamic>>> pegarComentarioAleatorio() async {
 
     List<Map<String, dynamic>> lista = [];
 
+    int id = Random().nextInt(100);
+
     //Aqui vai o link do API
-    var url = Uri.parse('https://63824ac89842ca8d3ca5eba2.mockapi.io/api/v1/comentarios/100');
+    var url = Uri.parse('https://63824ac89842ca8d3ca5eba2.mockapi.io/api/v1/comentarios/$id');
     var response = await http.get(url);
     if (response.statusCode == 200) {
       lista.add(jsonDecode(utf8.decode(response.bodyBytes)));
@@ -31,11 +34,11 @@ class _ApiState extends State<Api> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Map<String, dynamic>>>(
-          future: pegarComentario(),
+          future: pegarComentarioAleatorio(),
           builder: (context, snapshot) {
             if (snapshot.hasError) {
               return Center(
-                child: Text('Erro ao carregar o usuario'),
+                child: Text('Erro ao carregar os comentários'),
               );
             }
             if (snapshot.hasData) {
